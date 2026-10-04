@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Absolute Soccer Burlington</title>
+<meta name="description" content="Burlington's local soccer gear retailer. Boots, keeper gloves, match balls, club jerseys and the official Burlington Force club store. 4130 Fairview Street.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+/* ---------- tokens ---------- */
+:root{
+  --bg:#0b0d10;
+  --bg-2:#12151a;
+  --bg-3:#1a1e25;
+  --line:rgba(255,255,255,.1);
+  --text:#f2f3f5;
+  --muted:#a4abb6;
+  --accent:#2f6ff2;        /* brand blue, pulled from the logo */
+  --accent-ink:#ffffff;
+  --pitch:#1f8a4c;         /* one supporting tone for the turf, used only as tint */
+  --radius:0;              /* sharp everywhere: kit, numbers, pitch lines */
+  --display:"Barlow Condensed",system-ui,sans-serif;
+  --body:"Barlow",system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --nav-h:72px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.95;letter-spacing:-.01em;text-transform:uppercase}
+h2{font-size:clamp(40px,6vw,76px)}
+h3{font-size:clamp(22px,2.4vw,30px);font-weight:600}
+.wrap{width:min(1400px,100% - 2rem);margin-inline:auto}
+section{padding-block:clamp(72px,9vw,128px)}
+.sub{color:var(--muted);max-width:60ch;font-size:18px}
+.sub + *{margin-top:40px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);transition:transform .25s var(--ease),background .25s;white-space:nowrap}
+.btn:hover{background:#4a84ff}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:rgba(11,13,16,.55);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px)}
+.btn.ghost:hover{background:rgba(255,255,255,.12)}
+.btn i{font-size:20px}
+.link{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:17px;display:inline-flex;align-items:center;gap:8px;border-bottom:2px solid var(--accent);padding-bottom:2px}
+.link i{transition:transform .25s var(--ease)}
+.link:hover i{transform:translateX(4px)}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:50;display:flex;align-items:center;transition:background .35s,border-color .35s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(11,13,16,.85);backdrop-filter:blur(14px);border-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:32px}
+.brand{display:flex;align-items:center;gap:12px;background:#fff;padding:6px 10px;flex:none}
+.brand img{height:30px;width:auto}
+.menu{display:flex;gap:28px;font-family:var(--display);font-weight:600;font-size:18px;letter-spacing:.05em;text-transform:uppercase;margin-left:12px}
+.menu a{position:relative;padding:6px 0}
+.menu a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.menu a:hover::after{transform:scaleX(1)}
+.tools{margin-left:auto;display:flex;align-items:center;gap:6px}
+.tools a,.tools button{display:grid;place-items:center;width:42px;height:42px;font-size:22px;transition:color .2s}
+.tools a:hover,.tools button:hover{color:var(--accent)}
+.burger{display:none}
+@media (max-width:1023px){.menu{display:none}.burger{display:grid}}
+
+/* mobile drawer */
+.drawer{position:fixed;inset:0;z-index:60;background:var(--bg);display:grid;grid-template-rows:auto 1fr auto;transform:translateX(100%);transition:transform .45s var(--ease);visibility:hidden}
+.drawer.open{transform:none;visibility:visible}
+.drawer header{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid var(--line)}
+.drawer nav{display:flex;flex-direction:column;padding:24px 1rem;gap:4px;overflow:auto}
+.drawer nav a{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:40px;padding:10px 0;border-bottom:1px solid var(--line)}
+.drawer footer{padding:1rem;color:var(--muted);font-size:15px;border-top:1px solid var(--line)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100dvh;overflow:hidden;background:#000;padding:0;touch-action:pan-y;user-select:none}
+.track{position:absolute;inset:0;display:flex;width:300%;transition:transform .5s var(--ease);will-change:transform}
+.track.dragging{transition:none}
+.scene{position:relative;flex:0 0 33.3333%;height:100%;overflow:hidden}
+.scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scene::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,13,16,.82) 0%,rgba(11,13,16,.45) 45%,rgba(11,13,16,.1) 100%),linear-gradient(0deg,rgba(11,13,16,.9) 0%,rgba(11,13,16,0) 45%),linear-gradient(180deg,rgba(11,13,16,.75) 0%,rgba(11,13,16,0) 22%);pointer-events:none}
+.scene .copy{position:absolute;left:0;right:0;bottom:clamp(96px,14vh,160px);z-index:2}
+.scene .copy .wrap{max-width:720px;margin-left:max(1rem,calc((100vw - 1400px)/2))}
+.scene h1{font-size:clamp(56px,9vw,132px);line-height:.88;margin-bottom:20px;overflow:hidden}
+.scene h1 span{display:block;transform:translateY(110%);transition:transform .9s var(--ease)}
+.scene p{font-size:clamp(17px,1.4vw,21px);color:#d9dde3;max-width:46ch;margin-bottom:28px;opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease) .25s,transform .7s var(--ease) .25s}
+.scene .cta{display:flex;gap:12px;flex-wrap:wrap;opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease) .4s,transform .7s var(--ease) .4s}
+.scene.on h1 span{transform:none}
+.scene.on p,.scene.on .cta{opacity:1;transform:none}
+.hud{position:absolute;left:0;right:0;bottom:28px;z-index:3;display:flex;align-items:center;gap:20px;padding-inline:max(1rem,calc((100vw - 1400px)/2))}
+.dots{display:flex;gap:8px}
+.dots button{width:64px;height:3px;background:rgba(255,255,255,.3);position:relative;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.6)}
+.dots button span{position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left}
+.dots button.live span{transform:scaleX(var(--p,0))}
+.arrows{margin-left:auto;display:flex;gap:6px}
+.arrows button{width:48px;height:48px;border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:22px;transition:background .2s,border-color .2s}
+.arrows button:hover{background:#fff;color:#000;border-color:#fff}
+.scene-label{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:14px;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+@media (max-width:640px){.scene-label{display:none}.dots button{width:40px}.scene::before{background:linear-gradient(0deg,rgba(11,13,16,.96) 0%,rgba(11,13,16,.75) 40%,rgba(11,13,16,0) 70%),linear-gradient(180deg,rgba(11,13,16,.7),rgba(11,13,16,0) 25%)}.scene p{text-shadow:0 1px 10px rgba(0,0,0,.8)}}
+
+/* ---------- ticker ---------- */
+.ticker{border-block:1px solid var(--line);background:var(--bg-2);overflow:hidden;padding:14px 0;font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:16px}
+.ticker div{display:flex;gap:64px;width:max-content;animation:tick 40s linear infinite}
+.ticker span{display:flex;gap:64px;white-space:nowrap}
+.ticker b{color:var(--accent);font-weight:600}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- categories bento ---------- */
+.bento{display:grid;gap:12px;grid-template-columns:repeat(4,1fr);grid-auto-rows:260px}
+.tile{position:relative;overflow:hidden;background:var(--bg-3);display:flex;align-items:flex-end;padding:24px;isolation:isolate}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1s var(--ease)}
+.tile::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(11,13,16,.9),rgba(11,13,16,.1) 60%)}
+.tile:hover img{transform:scale(1.06)}
+.tile h3{font-size:clamp(26px,2.6vw,38px);font-weight:800}
+.tile small{display:block;color:var(--muted);font-size:15px;margin-top:4px}
+.tile .go{position:absolute;top:20px;right:20px;width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.35);font-size:20px;transition:background .2s,color .2s}
+.tile:hover .go{background:#fff;color:#000}
+.tile.big{grid-column:span 2;grid-row:span 2}
+.tile.wide{grid-column:span 2}
+.tile.solid{background:var(--accent)}
+.tile.solid img{opacity:.35;mix-blend-mode:luminosity}
+.tile.solid::before{background:linear-gradient(0deg,rgba(47,111,242,.95),rgba(47,111,242,.2))}
+.tile.solid small{color:#dbe6ff}
+.tile.turf{background:var(--pitch)}
+.tile.turf::before{display:none}
+.tile.turf small{color:#d6f0e0}
+.tile img.contain{object-fit:contain;padding:14px 14px 96px;background:#fff}
+.tile:has(img.contain)::before{background:linear-gradient(0deg,#0b0d10 0,rgba(11,13,16,.92) 26%,rgba(11,13,16,0) 48%)}
+@media (max-width:900px){.bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:220px}.tile.big{grid-row:span 1}}
+@media (max-width:520px){.bento{grid-template-columns:1fr}.tile.big,.tile.wide{grid-column:span 1}}
+
+/* ---------- product rail ---------- */
+.rail-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:32px;flex-wrap:wrap}
+.rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;scrollbar-width:none;margin-inline:calc(-1 * max(1rem,(100vw - 1400px)/2));padding-inline:max(1rem,calc((100vw - 1400px)/2))}
+.rail::-webkit-scrollbar{display:none}
+.card{flex:0 0 min(300px,78vw);scroll-snap-align:start;background:var(--bg-2);display:grid;gap:0}
+.card .ph{background:#fff;aspect-ratio:13/15;overflow:hidden}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.card:hover img{transform:scale(1.05)}
+.card .meta{padding:16px 18px 20px;display:grid;gap:4px}
+.card .name{font-family:var(--display);font-weight:600;font-size:19px;text-transform:uppercase;line-height:1.1;letter-spacing:.02em}
+.card .price{color:var(--muted);font-size:16px;display:flex;justify-content:space-between;align-items:center}
+.card .price b{color:var(--text);font-weight:600}
+.tag{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:var(--accent);padding:3px 8px}
+
+/* ---------- boots finder ---------- */
+.finder{background:var(--bg-2);border-block:1px solid var(--line)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:40px;overflow-x:auto;scrollbar-width:none}
+.tabs button{font-family:var(--display);font-weight:600;font-size:20px;text-transform:uppercase;letter-spacing:.06em;padding:14px 20px;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .2s}
+.tabs button:hover{color:var(--text)}
+.tabs button[aria-selected=true]{color:var(--text);border-color:var(--accent)}
+.finder-grid{display:grid;grid-template-columns:1fr 2fr;gap:48px;align-items:start}
+.surface{position:sticky;top:calc(var(--nav-h) + 24px)}
+.surface h3{font-size:clamp(34px,4vw,56px);font-weight:800;margin-bottom:12px}
+.surface p{color:var(--muted);max-width:40ch;margin-bottom:24px}
+.boots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;min-height:360px}
+.boot{display:grid;gap:10px;animation:pop .5s var(--ease) both}
+.boot:nth-child(2){animation-delay:.06s}.boot:nth-child(3){animation-delay:.12s}.boot:nth-child(4){animation-delay:.18s}.boot:nth-child(5){animation-delay:.24s}.boot:nth-child(6){animation-delay:.3s}
+@keyframes pop{from{opacity:0;transform:translateY(18px)}}
+.boot .ph{background:#fff;aspect-ratio:13/15;overflow:hidden}
+.boot img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.boot:hover img{transform:scale(1.05)}
+.boot .name{font-family:var(--display);font-weight:600;font-size:17px;text-transform:uppercase;line-height:1.1}
+.boot .price{color:var(--muted);font-size:15px}
+.empty{grid-column:1/-1;display:grid;place-items:center;text-align:center;padding:48px 24px;border:1px dashed rgba(255,255,255,.25);gap:12px;align-content:center}
+.empty i{font-size:48px;color:var(--accent)}
+.empty h4{font-family:var(--display);font-size:32px;font-weight:800;text-transform:uppercase}
+.empty p{color:var(--muted);max-width:38ch}
+@media (max-width:900px){.finder-grid{grid-template-columns:1fr}.surface{position:static}.boots{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- force banner ---------- */
+.force{position:relative;min-height:70vh;display:grid;align-items:center;padding:0;overflow:hidden;background:#000}
+.force img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.force::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,13,16,.9) 20%,rgba(11,13,16,.2))}
+.force .wrap{position:relative;padding-block:96px}
+.force h2{font-size:clamp(48px,8vw,120px);line-height:.88}
+.force h2 em{font-style:italic;color:var(--accent);line-height:1.1;display:inline-block;padding-bottom:4px}
+.force p{color:#d9dde3;max-width:48ch;font-size:19px;margin:20px 0 32px}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chips a{padding:14px 22px;border:1px solid rgba(255,255,255,.45);font-family:var(--display);font-weight:600;font-size:18px;text-transform:uppercase;letter-spacing:.06em;transition:background .2s,color .2s}
+.chips a:hover{background:#fff;color:#000}
+
+/* ---------- services ---------- */
+.services{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--line)}
+.svc{padding:36px;border:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;transition:background .25s}
+.svc:hover{background:var(--bg-2)}
+.svc i{font-size:34px;color:var(--accent);line-height:1}
+.svc h3{font-size:26px;font-weight:800;margin-bottom:6px}
+.svc p{color:var(--muted);font-size:16px;max-width:44ch}
+.svc .link{margin-top:14px;font-size:15px}
+@media (max-width:760px){.services{grid-template-columns:1fr}.svc{padding:28px 22px}}
+
+/* ---------- brands ---------- */
+.brands{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;align-items:center}
+.brands div{height:110px;display:grid;place-items:center;border:1px solid var(--line);opacity:.85;transition:opacity .2s,border-color .2s}
+.brands div:hover{opacity:1;border-color:rgba(255,255,255,.4)}
+.brands img{height:36px;width:auto}
+.brands span{font-family:var(--display);font-weight:800;font-size:30px;text-transform:uppercase;letter-spacing:.04em}
+@media (max-width:760px){.brands{grid-template-columns:repeat(3,1fr)}.brands div{height:90px}}
+
+/* ---------- visit ---------- */
+.visit{background:var(--bg-2);border-top:1px solid var(--line)}
+.visit-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:stretch}
+.hours{display:grid;grid-template-columns:1fr auto;gap:10px 24px;font-size:18px;margin:28px 0 36px;max-width:420px}
+.hours b{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:19px}
+.hours .today{color:var(--accent)}
+.contact{display:grid;gap:14px;font-size:18px}
+.contact a{display:flex;align-items:center;gap:12px}
+.contact i{color:var(--accent);font-size:22px}
+.map{border:0;width:100%;min-height:420px;height:100%;filter:grayscale(1) invert(.92) contrast(.9) hue-rotate(180deg)}
+@media (max-width:900px){.visit-grid{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:56px 0 32px;color:var(--muted);font-size:15px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
+.fgrid h4{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:20px;color:var(--text);margin-bottom:12px}
+.fgrid a{display:block;padding:4px 0;transition:color .2s}
+.fgrid a:hover{color:var(--text)}
+.fbot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
+.social{display:flex;gap:10px}
+.social a{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line);font-size:20px;color:var(--text)}
+.social a:hover{border-color:var(--accent);color:var(--accent)}
+@media (max-width:760px){.fgrid{grid-template-columns:1fr 1fr}}
+
+/* ---------- keepy-up ball ---------- */
+/* fixed wrapper: the whole rig slides in from the left once the page end is in view */
+#keepy{position:fixed;inset:0;z-index:39;pointer-events:none;transform:translateX(-110vw);transition:transform .8s var(--ease)}
+#keepy.in{transform:none}
+#keepy.in #ball i{transform:rotate(1080deg)}
+#ball i{display:block;transition:transform 1.1s var(--ease)}
+#ball{pointer-events:auto}
+#pitchline{position:fixed;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.18);z-index:39;pointer-events:none}
+#ball{position:fixed;left:0;bottom:0;width:60px;height:60px;z-index:40;display:grid;place-items:center;cursor:pointer;border-radius:50%;background:#fff;color:#0b0d10;font-size:54px;box-shadow:0 10px 24px rgba(0,0,0,.5),inset 0 -4px 0 rgba(0,0,0,.08);will-change:transform;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+#ball i{line-height:1}
+/* the count: Persona-style slashed card, each number punches in */
+#count{position:fixed;left:0;bottom:0;z-index:41;pointer-events:none;font-family:var(--display);font-weight:800;font-style:italic;font-size:clamp(56px,8vw,118px);line-height:1;color:#fff;opacity:0}
+#count b{position:relative;display:block;padding:.02em .18em .06em .14em;background:#e01e2b;color:#fff;clip-path:polygon(6% 0,100% 4%,94% 100%,0 92%);-webkit-text-stroke:2px #0b0d10;text-shadow:5px 5px 0 #0b0d10;transform:rotate(-8deg)}
+#count.hit b{animation:punch .45s var(--ease) forwards}
+#count.hit{opacity:1}
+@keyframes punch{0%{transform:scale(2.2) rotate(6deg)}35%{transform:scale(.9) rotate(-11deg)}100%{transform:scale(1) rotate(-8deg)}}
+#count.drop{animation:dropout .35s ease-in forwards}
+@keyframes dropout{from{opacity:1}to{opacity:0;transform:translateY(30px) rotate(-14deg) scale(.7)}}
+#confetti{position:fixed;inset:0;z-index:42;pointer-events:none}
+@media (max-width:640px){#ball{width:52px;height:52px;font-size:46px}}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  .ticker div{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Absolute Soccer Burlington home"><img src="assets/logo.png" alt="Absolute Soccer &amp; Rugby Supplies"></a>
+    <nav class="menu" aria-label="Shop">
+      <a href="https://shopburlington.absolutesoccer.ca/footwear/">Footwear</a>
+      <a href="https://shopburlington.absolutesoccer.ca/keepers/">Keepers</a>
+      <a href="https://shopburlington.absolutesoccer.ca/equipment/">Equipment</a>
+      <a href="https://shopburlington.absolutesoccer.ca/apparel/">Apparel</a>
+      <a href="https://shopburlington.absolutesoccer.ca/licensed-gear/">Licensed Gear</a>
+      <a href="https://shopburlington.absolutesoccer.ca/burlington-force/">Burlington Force</a>
+    </nav>
+    <div class="tools">
+      <a href="https://shopburlington.absolutesoccer.ca/search/" aria-label="Search"><i class="ph ph-magnifying-glass"></i></a>
+      <a href="https://shopburlington.absolutesoccer.ca/account/" aria-label="Account"><i class="ph ph-user"></i></a>
+      <a href="https://shopburlington.absolutesoccer.ca/cart/" aria-label="Cart"><i class="ph ph-shopping-bag"></i></a>
+      <button class="burger" id="burger" aria-label="Open menu"><i class="ph ph-list"></i></button>
+    </div>
+  </div>
+</header>
+<div class="drawer" id="drawer" aria-hidden="true">
+  <header>
+    <a class="brand" href="#top"><img src="assets/logo.png" alt=""></a>
+    <button id="closeDrawer" aria-label="Close menu" style="font-size:28px"><i class="ph ph-x"></i></button>
+  </header>
+  <nav>
+    <a href="https://shopburlington.absolutesoccer.ca/footwear/">Footwear</a>
+    <a href="https://shopburlington.absolutesoccer.ca/keepers/">Keepers</a>
+    <a href="https://shopburlington.absolutesoccer.ca/equipment/">Equipment</a>
+    <a href="https://shopburlington.absolutesoccer.ca/apparel/">Apparel</a>
+    <a href="https://shopburlington.absolutesoccer.ca/licensed-gear/">Licensed Gear</a>
+    <a href="https://shopburlington.absolutesoccer.ca/burlington-force/">Burlington Force</a>
+    <a href="https://shopburlington.absolutesoccer.ca/embellishment/">Embellishment</a>
+    <a href="https://shopburlington.absolutesoccer.ca/referee/">Referee</a>
+    <a href="https://shopburlington.absolutesoccer.ca/rugby/">Rugby</a>
+  </nav>
+  <footer>4130 Fairview Street, Burlington &nbsp;·&nbsp; (905) 639-9866</footer>
+</div>
+
+<!-- ===== HERO: three real-footage scenes ===== -->
+<section class="hero" id="top" aria-roledescription="carousel" aria-label="Featured">
+  <div class="track" id="track">
+
+    <div class="scene" data-scene="kick">
+      <video muted playsinline preload="auto" src="video/kick.mp4" aria-hidden="true"></video>
+      <div class="copy"><div class="wrap">
+        <h1><span>Strike</span><span>first.</span></h1>
+        <p>Burlington's soccer shop. Boots, balls, jerseys and keeper gear from Nike, adidas, Puma and Joma. New arrivals every week.</p>
+        <div class="cta">
+          <a class="btn" href="https://shopburlington.absolutesoccer.ca/footwear/">Shop footwear <i class="ph-bold ph-arrow-right"></i></a>
+          <a class="btn ghost" href="#visit">Visit the store</a>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="scene" data-scene="keeper">
+      <video muted playsinline preload="auto" src="video/keeper.mp4" aria-hidden="true"></video>
+      <div class="copy"><div class="wrap">
+        <h1><span>Built for</span><span>the back line.</span></h1>
+        <p>Gloves, padded shorts and keeper jerseys for every level, fitted in-store at 4130 Fairview Street.</p>
+        <div class="cta">
+          <a class="btn" href="https://shopburlington.absolutesoccer.ca/keepers/">Shop keepers <i class="ph-bold ph-arrow-right"></i></a>
+          <a class="btn ghost" href="https://shopburlington.absolutesoccer.ca/keepers/gloves/">Gloves</a>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="scene" data-scene="celebrate">
+      <video muted playsinline preload="auto" src="video/celebrate.mp4" aria-hidden="true"></video>
+      <div class="copy"><div class="wrap">
+        <h1><span>Wear</span><span>the badge.</span></h1>
+        <p>2026/27 club jerseys, World Cup 2026 kits and the official Burlington Force club store. Name and number printing done in-house.</p>
+        <div class="cta">
+          <a class="btn" href="https://shopburlington.absolutesoccer.ca/licensed-gear/">Shop licensed gear <i class="ph-bold ph-arrow-right"></i></a>
+          <a class="btn ghost" href="https://shopburlington.absolutesoccer.ca/licensed-gear/world-cup-2026/">World Cup 2026</a>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="hud">
+    <div class="dots" role="tablist" aria-label="Scenes">
+      <button role="tab" aria-label="The strike"><span></span></button>
+      <button role="tab" aria-label="The save"><span></span></button>
+      <button role="tab" aria-label="The celebration"><span></span></button>
+    </div>
+    <div class="scene-label" id="sceneLabel">The strike</div>
+    <div class="arrows">
+      <button id="prev" aria-label="Previous scene"><i class="ph ph-arrow-left"></i></button>
+      <button id="next" aria-label="Next scene"><i class="ph ph-arrow-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker" aria-hidden="true"><div>
+  <span><b>New arrivals every week</b> Indoor footwear coming soon <b>Curbside pick-up available</b> 2026/27 club jerseys in stock <b>World Cup 2026 kits</b> Official Burlington Force club store</span>
+  <span><b>New arrivals every week</b> Indoor footwear coming soon <b>Curbside pick-up available</b> 2026/27 club jerseys in stock <b>World Cup 2026 kits</b> Official Burlington Force club store</span>
+</div></div>
+
+<!-- ===== CATEGORIES ===== -->
+<section id="shop">
+  <div class="wrap">
+    <h2 class="rv">Everything for matchday</h2>
+    <p class="sub rv">Same shop, same shelves, fewer clicks. Six departments, one street in Burlington.</p>
+    <div class="bento">
+      <a class="tile big rv" href="https://shopburlington.absolutesoccer.ca/footwear/">
+        <img src="assets/boots-wall.jpg" alt="Row of Nike, adidas and Puma football boots">
+        <span class="go"><i class="ph ph-arrow-up-right"></i></span>
+        <div><h3>Footwear</h3><small>Cleats, turf, futsal and lifestyle for adults and youth</small></div>
+      </a>
+      <a class="tile rv" href="https://shopburlington.absolutesoccer.ca/keepers/">
+        <img class="contain" src="https://cdn.shoplightspeed.com/shops/622635/files/75392771/325x375x2/attrakt-advance-evolution-glueprint-black-aqua-blu.jpg" alt="Reusch Attrakt goalkeeper glove">
+        <span class="go"><i class="ph ph-arrow-up-right"></i></span>
+        <div><h3>Keepers</h3><small>Gloves, shorts, jerseys</small></div>
+      </a>
+      <a class="tile rv" href="https://shopburlington.absolutesoccer.ca/equipment/">
+        <img class="contain" src="https://cdn.shoplightspeed.com/shops/622635/files/77156073/325x375x2/uefa-champions-league-2026-27-official-match-ball.jpg" alt="UEFA Champions League 2026/27 official match ball">
+        <span class="go"><i class="ph ph-arrow-up-right"></i></span>
+        <div><h3>Equipment</h3><small>Balls, training, protective, coaching</small></div>
+      </a>
+      <a class="tile wide rv" href="https://shopburlington.absolutesoccer.ca/licensed-gear/">
+        <img class="contain" src="https://cdn.shoplightspeed.com/shops/622635/files/77408448/325x375x2/borussia-dortmund-2026-27-home-jersey.jpg" alt="Borussia Dortmund 2026/27 home jersey" style="object-position:center 30%">
+        <span class="go"><i class="ph ph-arrow-up-right"></i></span>
+        <div><h3>Licensed gear</h3><small>Club merchandise and World Cup 2026</small></div>
+      </a>
+      <a class="tile solid wide rv" href="https://shopburlington.absolutesoccer.ca/burlington-force/">
+        <img src="assets/team.jpg" alt="" loading="lazy">
+        <span class="go"><i class="ph ph-arrow-up-right"></i></span>
+        <div><h3>Burlington Force</h3><small>Official club store: girls, boys, coaches</small></div>
+      </a>
+      <a class="tile wide rv" href="https://shopburlington.absolutesoccer.ca/apparel/">
+        <img class="contain" src="https://cdn.shoplightspeed.com/shops/622635/files/68933820/325x375x2/squad-25-track-jacket-blue-yellow.jpg" alt="adidas Squad 25 track jacket">
+        <span class="go"><i class="ph ph-arrow-up-right"></i></span>
+        <div><h3>Apparel</h3><small>Player wear, hats and scarves</small></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEW ARRIVALS ===== -->
+<section id="new" style="padding-top:0">
+  <div class="wrap">
+    <div class="rail-head rv">
+      <div><h2>New this week</h2></div>
+      <a class="link" href="https://shopburlington.absolutesoccer.ca/collection/">All products <i class="ph-bold ph-arrow-right"></i></a>
+    </div>
+    <div class="rail rv" id="rail">
+      <a class="card" href="https://shopburlington.absolutesoccer.ca/licensed-gear/club-merchandise/"><div class="ph"><img loading="lazy" src="https://cdn.shoplightspeed.com/shops/622635/files/77408448/325x375x2/borussia-dortmund-2026-27-home-jersey.jpg" alt=""></div><div class="meta"><div class="name">Borussia Dortmund 2026/27 Home Jersey</div><div class="price"><b>C$120.00</b><span class="tag">New</span></div></div></a>
+      <a class="card" href="https://shopburlington.absolutesoccer.ca/licensed-gear/club-merchandise/"><div class="ph"><img loading="lazy" src="https://cdn.shoplightspeed.com/shops/622635/files/77408436/325x375x2/ac-milan-2026-27-third-jersey.jpg" alt=""></div><div class="meta"><div class="name">AC Milan 2026/27 Third Jersey</div><div class="price"><b>C$120.00</b><span class="tag">New</span></div></div></a>
+      <a class="card" href="https://shopburlington.absolutesoccer.ca/footwear/"><div class="ph"><img loading="lazy" src="https://cdn.shoplightspeed.com/shops/622635/files/77359906/325x375x2/phantom-6-low-academy-turf-bright-crimson-blur-bla.jpg" alt=""></div><div class="meta"><div class="name">Nike Phantom 6 Low Academy Turf</div><div class="price"><b>C$120.00</b></div></div></a>
+      <a class="card" href="https://shopburlington.absolutesoccer.ca/licensed-gear/club-merchandise/"><div class="ph"><img loading="lazy" src="https://cdn.shoplightspeed.com/shops/622635/files/77408420/325x375x2/ac-milan-2026-27-away-jersey-youth.jpg" alt=""></div><div class="meta"><div class="name">AC Milan 2026/27 Away Jersey, Youth</div><div class="price"><b>C$100.00</b></div></div></a>
+      <a class="card" href="https://shopburlington.absolutesoccer.ca/equipment/"><div class="ph"><img loading="lazy" src="https://cdn.shoplightspeed.com/shops/622635/files/77359719/325x375x2/serie-a-2026-27-official-match-ball.jpg" alt=""></div><div class="meta"><div class="name">Serie A 2026/27 Official Match Ball</div><div class="price"><b>C$200.00</b></div></div></a>
+      <a class="card" href="https://shopburlington.absolutesoccer.ca/keepers/gloves/"><div class="ph"><img loading="lazy" src="https://cdn.shoplightspeed.com/shops/622635/files/77157611/325x375x2/predator-gk-training-gloves-junior-soltur-black-wh.jpg" alt=""></div><div class="meta"><div class="name">adidas Predator GK Training Gloves, Junior</div><div class="price"><b>C$35.00</b></div></div></a>
+      <a class="card" href="https://shopburlington.absolutesoccer.ca/licensed-gear/club-merchandise/"><div class="ph"><img loading="lazy" src="https://cdn.shoplightspeed.com/shops/622635/files/77158335/325x375x2/fc-porto-2026-27-away-jersey.jpg" alt=""></div><div class="meta"><div class="name">FC Porto 2026/27 Away Jersey</div><div class="price"><b>C$130.00</b></div></div></a>
+      <a class="card" href="https://shopburlington.absolutesoccer.ca/licensed-gear/world-cup-2026/"><div class="ph"><img loading="lazy" src="https://cdn.shoplightspeed.com/shops/622635/files/74974479/325x375x2/canada-2026-world-cup-goalkeeper-jersey.jpg" alt=""></div><div class="meta"><div class="name">Canada 2026 World Cup Goalkeeper Jersey</div><div class="price"><b>C$150.00</b></div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BOOT FINDER ===== -->
+<section class="finder" id="boots">
+  <div class="wrap">
+    <h2 class="rv">Pick your surface</h2>
+    <p class="sub rv">The wrong stud pattern costs you traction and ankles. Choose where you play and we'll show what fits.</p>
+    <div class="tabs rv" role="tablist" id="tabs">
+      <button role="tab" aria-selected="true" data-k="fg">Firm ground</button>
+      <button role="tab" aria-selected="false" data-k="turf">Turf</button>
+      <button role="tab" aria-selected="false" data-k="futsal">Futsal / indoor</button>
+      <button role="tab" aria-selected="false" data-k="life">Lifestyle</button>
+    </div>
+    <div class="finder-grid">
+      <div class="surface rv">
+        <h3 id="sfTitle">Firm ground</h3>
+        <p id="sfText">Natural grass and most modern 3G fields. Moulded studs for grip without the dig of soft-ground metal.</p>
+        <a class="link" id="sfLink" href="https://shopburlington.absolutesoccer.ca/footwear/">Shop all firm ground <i class="ph-bold ph-arrow-right"></i></a>
+      </div>
+      <div class="boots" id="boots-grid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BURLINGTON FORCE ===== -->
+<section class="force" id="force">
+  <img src="assets/team.jpg" alt="" loading="lazy">
+  <div class="wrap">
+    <h2 class="rv">The official<br><em>Burlington Force</em><br>club store</h2>
+    <p class="rv">Training kit, match kit and coaching wear, sized and printed right here. Girls, boys and coaches each have their own collection.</p>
+    <div class="chips rv">
+      <a href="https://shopburlington.absolutesoccer.ca/burlington-force/">Girls</a>
+      <a href="https://shopburlington.absolutesoccer.ca/burlington-force/">Boys</a>
+      <a href="https://shopburlington.absolutesoccer.ca/burlington-force/">Coaches</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+<section id="services">
+  <div class="wrap">
+    <h2 class="rv">More than a shelf</h2>
+    <p class="sub rv">The parts of the shop you can't get from a warehouse.</p>
+    <div class="services rv">
+      <div class="svc"><i class="ph ph-t-shirt"></i><div><h3>Embellishment</h3><p>Names, numbers, sponsor logos and club crests pressed in-house on jerseys, shorts and training wear.</p><a class="link" href="https://shopburlington.absolutesoccer.ca/embellishment/">Printing <i class="ph-bold ph-arrow-right"></i></a></div></div>
+      <div class="svc"><i class="ph ph-first-aid-kit"></i><div><h3>Injury recovery</h3><p>Braces, sleeves, tape and compression so a knock in week three doesn't end your season.</p><a class="link" href="https://shopburlington.absolutesoccer.ca/injury-recovery/">Recovery gear <i class="ph-bold ph-arrow-right"></i></a></div></div>
+      <div class="svc"><i class="ph ph-flag"></i><div><h3>Referee</h3><p>Kits, flags, cards, whistles and watches for officials working youth leagues through senior matches.</p><a class="link" href="https://shopburlington.absolutesoccer.ca/referee/">Referee kit <i class="ph-bold ph-arrow-right"></i></a></div></div>
+      <div class="svc"><i class="ph ph-football"></i><div><h3>Rugby</h3><p>Jerseys and shirts for the other code. Same store, same fitting help.</p><a class="link" href="https://shopburlington.absolutesoccer.ca/rugby/">Rugby <i class="ph-bold ph-arrow-right"></i></a></div></div>
+      <div class="svc"><i class="ph ph-gift"></i><div><h3>Christmas gifts</h3><p>Mini balls, scarves, beanies and club gear picked for the players on your list.</p><a class="link" href="https://shopburlington.absolutesoccer.ca/christmas-gifts/">Gift ideas <i class="ph-bold ph-arrow-right"></i></a></div></div>
+      <div class="svc"><i class="ph ph-package"></i><div><h3>Curbside pick-up</h3><p>Order online, pull up on Fairview Street, and we bring it to the car. No shipping wait.</p><a class="link" href="https://shopburlington.absolutesoccer.ca/service/hours-of-operation/">How it works <i class="ph-bold ph-arrow-right"></i></a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BRANDS ===== -->
+<section id="brands" style="padding-top:0">
+  <div class="wrap">
+    <div class="brands rv">
+      <div><img src="https://cdn.simpleicons.org/adidas/ffffff" alt="adidas"></div>
+      <div><img src="https://cdn.simpleicons.org/nike/ffffff" alt="Nike"></div>
+      <div><img src="https://cdn.simpleicons.org/puma/ffffff" alt="Puma"></div>
+      <div><span>Joma</span></div>
+      <div><span>Kwik Goal</span></div>
+      <div><span>Kyro</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VISIT ===== -->
+<section class="visit" id="visit">
+  <div class="wrap visit-grid">
+    <div>
+      <h2 class="rv">Come in and try it on</h2>
+      <p class="sub rv">4130 Fairview Street, Burlington. Open seven days.</p>
+      <div class="hours rv" id="hours">
+        <b>Mon to Thu</b><span>10:00 AM to 8:00 PM</span>
+        <b>Friday</b><span>10:00 AM to 7:00 PM</span>
+        <b>Saturday</b><span>10:00 AM to 5:00 PM</span>
+        <b>Sunday</b><span>11:00 AM to 4:00 PM</span>
+      </div>
+      <div class="contact rv">
+        <a href="tel:+19056399866"><i class="ph ph-phone"></i>(905) 639-9866</a>
+        <a href="https://maps.google.com/?q=4130+Fairview+Street+Burlington+ON+L7L4Y8" target="_blank" rel="noopener"><i class="ph ph-map-pin"></i>4130 Fairview Street, Burlington, ON L7L 4Y8</a>
+        <a href="https://www.instagram.com/absolutesoccerburlington" target="_blank" rel="noopener"><i class="ph ph-instagram-logo"></i>@absolutesoccerburlington</a>
+      </div>
+    </div>
+    <iframe class="map rv" title="Map to Absolute Soccer Burlington" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=4130%20Fairview%20Street%2C%20Burlington%2C%20ON%20L7L4Y8&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
+  </div>
+</section>
+
+<!-- ===== KEEPY-UP BALL ===== -->
+<div id="keepy" aria-hidden="true">
+  <div id="pitchline"></div>
+  <button id="ball" aria-label="Keepy-up ball"><i class="ph-fill ph-soccer-ball"></i></button>
+  <div id="count" aria-live="polite"><b>0</b></div>
+</div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="#top" style="display:inline-flex"><img src="assets/logo.png" alt="Absolute Soccer &amp; Rugby Supplies"></a>
+        <p style="margin-top:16px;max-width:36ch">Your local soccer gear retailer. Independent, in Burlington, and on the sideline most weekends.</p>
+      </div>
+      <div><h4>Shop</h4>
+        <a href="https://shopburlington.absolutesoccer.ca/footwear/">Footwear</a>
+        <a href="https://shopburlington.absolutesoccer.ca/keepers/">Keepers</a>
+        <a href="https://shopburlington.absolutesoccer.ca/equipment/">Equipment</a>
+        <a href="https://shopburlington.absolutesoccer.ca/apparel/">Apparel</a>
+        <a href="https://shopburlington.absolutesoccer.ca/licensed-gear/">Licensed gear</a>
+      </div>
+      <div><h4>Clubs</h4>
+        <a href="https://shopburlington.absolutesoccer.ca/burlington-force/">Burlington Force</a>
+        <a href="https://shopburlington.absolutesoccer.ca/embellishment/">Embellishment</a>
+        <a href="https://shopburlington.absolutesoccer.ca/referee/">Referee</a>
+        <a href="https://shopburlington.absolutesoccer.ca/rugby/">Rugby</a>
+      </div>
+      <div><h4>Help</h4>
+        <a href="https://shopburlington.absolutesoccer.ca/service/hours-of-operation/">Hours and pick-up</a>
+        <a href="https://shopburlington.absolutesoccer.ca/service/payment-methods/">Payment methods</a>
+        <a href="https://shopburlington.absolutesoccer.ca/account/">My account</a>
+        <a href="https://shopburlington.absolutesoccer.ca/account/wishlist/">Wishlist</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Absolute Soccer Burlington. Footage courtesy of Mixkit.</span>
+      <div class="social">
+        <a href="https://www.facebook.com/absolutesoccerburlington" aria-label="Facebook" target="_blank" rel="noopener"><i class="ph ph-facebook-logo"></i></a>
+        <a href="https://www.instagram.com/absolutesoccerburlington" aria-label="Instagram" target="_blank" rel="noopener"><i class="ph ph-instagram-logo"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+<div id="end" aria-hidden="true" style="height:1px"></div>
+
+<script>
+/* ================= HERO: scene choreography =================
+   Three real clips at natural speed. Each plays through, holds its last
+   frame for a beat, then hands off to the next scene. */
+const SCENES = [
+  { label:'The strike',      start:0.0, hold:120 },
+  { label:'The save',        start:0.4, hold:120 },
+  { label:'The celebration', start:1.9, hold:120 },
+];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const track = document.getElementById('track');
+const scenes = [...track.children];
+const videos = scenes.map(s => s.querySelector('video'));
+const dots = [...document.querySelectorAll('.dots button')];
+const label = document.getElementById('sceneLabel');
+let cur = -1, raf = 0, handoff = 0;
+
+function go(i, {auto=false} = {}) {
+  i = (i + SCENES.length) % SCENES.length;
+  if (i === cur) return;
+  cancelAnimationFrame(raf); clearTimeout(handoff);
+  if (cur >= 0) { videos[cur].pause(); scenes[cur].classList.remove('on'); dots[cur].classList.remove('live'); }
+  cur = i;
+  track.style.transform = `translateX(${-i * 100 / SCENES.length}%)`;
+  label.textContent = SCENES[i].label;
+  dots.forEach((d,k) => d.setAttribute('aria-selected', k === i));
+  const s = SCENES[i], v = videos[i], el = scenes[i];
+  v.currentTime = s.start;
+  const nx = (i + 1) % SCENES.length; videos[nx].currentTime = SCENES[nx].start;   // next clip parked on its first frame
+  if (reduce) { el.classList.add('on'); return; }       // static frame + copy, no autoplay
+  const play = v.play(); if (play && play.catch) play.catch(() => el.classList.add('on'));
+  setTimeout(() => el.classList.add('on'), 350);          // footage gets the first look, then the copy
+  dots[i].classList.add('live');
+  const tick = () => {
+    dots[i].style.setProperty('--p', Math.min(1, (v.currentTime - s.start) / ((v.duration || 1) - s.start)));
+    if (v.ended) { handoff = setTimeout(() => go(i + 1, {auto:true}), s.hold); return; }
+    raf = requestAnimationFrame(tick);
+  };
+  raf = requestAnimationFrame(tick);
+}
+dots.forEach((d,k) => d.addEventListener('click', () => go(k)));
+document.getElementById('next').addEventListener('click', () => go(cur + 1));
+document.getElementById('prev').addEventListener('click', () => go(cur - 1));
+addEventListener('keydown', e => { if (e.key === 'ArrowRight') go(cur+1); if (e.key === 'ArrowLeft') go(cur-1); });
+
+// swipe / drag between scenes
+let x0 = null, dx = 0;
+const hero = document.querySelector('.hero');
+hero.addEventListener('pointerdown', e => { if (e.target.closest('a,button')) return; x0 = e.clientX; dx = 0; track.classList.add('dragging'); });
+hero.addEventListener('pointermove', e => { if (x0 === null) return; dx = e.clientX - x0; track.style.transform = `translateX(calc(${-cur * 100 / SCENES.length}% + ${dx}px))`; });
+const release = () => { if (x0 === null) return; track.classList.remove('dragging'); const d = dx; x0 = null;
+  if (Math.abs(d) > 70) go(cur + (d < 0 ? 1 : -1)); else track.style.transform = `translateX(${-cur * 100 / SCENES.length}%)`; };
+hero.addEventListener('pointerup', release); hero.addEventListener('pointercancel', release); hero.addEventListener('pointerleave', release);
+
+// the opening kick: start as soon as the first clip can play
+videos[0].addEventListener('canplay', () => { if (cur < 0) go(0); }, {once:true});
+setTimeout(() => { if (cur < 0) go(0); }, 2500); // network slow? start anyway
+
+/* ================= NAV ================= */
+const nav = document.getElementById('nav');
+new IntersectionObserver(([e]) => nav.classList.toggle('solid', !e.isIntersecting), {rootMargin:'-72px 0px 0px 0px'}).observe(hero);
+const drawer = document.getElementById('drawer');
+document.getElementById('burger').onclick = () => { drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); };
+document.getElementById('closeDrawer').onclick = () => { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); };
+drawer.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => drawer.classList.remove('open')));
+
+/* ================= REVEALS ================= */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+/* ================= BOOT FINDER ================= */
+const CDN = 'https://cdn.shoplightspeed.com/shops/622635/files/';
+const BOOTS = {
+  fg:   { title:'Firm ground', text:'Natural grass and most modern 3G fields. Moulded studs for grip without the dig of soft-ground metal.', link:'https://shopburlington.absolutesoccer.ca/footwear/', items:[
+    ['Nike Phantom 6 Low Elite FG','C$330.00','76248145/325x375x2/phantom-6-low-elite-fg-t-multi-color-black.jpg'],
+    ['Nike Phantom 6 High Elite FG','C$365.00','76248132/325x375x2/phantom-6-high-elite-fg-t-multi-color-black.jpg'],
+    ['Nike Phantom 6 High Pro FG','C$235.00','74778371/325x375x2/phantom-6-high-pro-fg-racer-blue-pink-blast-white.jpg'],
+    ['Nike Phantom 6 High Academy FG/MG','C$125.00','74968893/325x375x2/phantom-6-high-academy-fg-mg-racer-blue-pink-blast.jpg'],
+    ['adidas Predator Pro FT FG','See in store','75393947/325x375x2/predator-pro-ft-fg-crsk-rayblu-tesoye.jpg'],
+    ['adidas F50 League LL FG/MG','See in store','75393952/325x375x2/f50-league-ll-fg-mg-lurabl-tesoye-luaq.jpg'],
+  ]},
+  turf: { title:'Turf', text:'Short rubber nubs for artificial turf and hard-packed fields. Softer on the knees, kinder to the field.', link:'https://shopburlington.absolutesoccer.ca/footwear/', items:[
+    ['Nike Phantom 6 Low Academy Turf','C$120.00','77359906/325x375x2/phantom-6-low-academy-turf-bright-crimson-blur-bla.jpg'],
+    ['Puma Avant Pro','C$200.00','65736466/325x375x2/puma-avant-pro-puma-black-puma-white.jpg'],
+    ['Nike Phantom GX II Academy','C$85.00','61523872/325x375x2/nike-phantom-gx-ii-academy-fg-mg-black-noir.jpg'],
+  ]},
+  futsal: { title:'Futsal / indoor', text:'Flat gum soles for hardwood and sport court. Indoor footwear lands in store soon.', link:'https://shopburlington.absolutesoccer.ca/footwear/', items:[
+    ['adidas Predator Freak .3 IN, Junior','C$90.00','37798244/325x375x2/adidas-predator-freak-3-in-j.jpg'],
+  ], soon:true},
+  life: { title:'Lifestyle', text:'Street and casual silhouettes borrowed from the pitch. For the ride home, not the match.', link:'https://shopburlington.absolutesoccer.ca/footwear/', items:[
+    ['Nike Jr Tiempo Streetgate','C$75.00','77359919/325x375x2/jr-tiempo-streetgate-black-illusion-green-black.jpg'],
+  ]},
+};
+const grid = document.getElementById('boots-grid');
+function showBoots(k) {
+  const b = BOOTS[k];
+  document.getElementById('sfTitle').textContent = b.title;
+  document.getElementById('sfText').textContent = b.text;
+  document.getElementById('sfLink').href = b.link;
+  document.getElementById('sfLink').firstChild.textContent = `Shop all ${b.title.toLowerCase()} `;
+  grid.innerHTML = b.items.map(([n,p,img]) => `<a class="boot" href="${b.link}"><div class="ph"><img loading="lazy" src="${CDN+img}" alt=""></div><div class="name">${n}</div><div class="price">${p}</div></a>`).join('')
+    + (b.soon ? `<div class="empty"><i class="ph ph-sneaker-move"></i><h4>Indoor footwear coming soon</h4><p>The full futsal wall is on its way. Call the store for what's landed this week.</p><a class="btn ghost" href="tel:+19056399866">(905) 639-9866</a></div>` : '');
+  document.querySelectorAll('#tabs button').forEach(t => t.setAttribute('aria-selected', t.dataset.k === k));
+}
+document.getElementById('tabs').addEventListener('click', e => { const t = e.target.closest('button'); if (t) showBoots(t.dataset.k); });
+showBoots('fg');
+
+/* ================= KEEPY-UP BALL =================
+   A small ball rests on the bottom edge of the viewport. Each tap kicks it up
+   and counts; let it land and the count resets; reach ten and it bursts. */
+(() => {
+  const ball = document.getElementById('ball'), count = document.getElementById('count');
+  const cv = document.getElementById('confetti'), cx = cv.getContext('2d');
+  const G = 2400, DAMP = 0.42, TARGET = 10;                 // px/s^2 gravity, floor bounce, keepy-ups to win
+  let x = innerWidth * 0.5 - 30, y = 0, vx = 0, vy = 0, spin = 0, n = 0, last = 0, raf = 0;
+  const size = () => ball.offsetWidth;
+  const place = () => {
+    ball.style.transform = `translate(${x}px, ${-y}px) rotate(${spin}deg)`;
+    count.style.transform = `translate(${x - size()*0.6}px, ${-(y + size() + 24)}px)`;
+  };
+  const show = (v) => { count.firstElementChild.textContent = v; count.classList.remove('hit','drop'); void count.offsetWidth; count.classList.add('hit'); };
+  const step = (t) => {
+    const dt = Math.min(0.032, (t - last) / 1000); last = t;
+    vy -= G * dt; y += vy * dt; x += vx * dt; spin += vx * dt * 1.4;
+    if (x < 0) { x = 0; vx = -vx * 0.6; } if (x > innerWidth - size()) { x = innerWidth - size(); vx = -vx * 0.6; }
+    let settled = false;
+    if (y <= 0) {
+      y = 0; vy = -vy * DAMP; vx *= 0.8;
+      if (Math.abs(vy) < 160) { vy = 0; vx = 0; settled = true; n = 0; if (count.classList.contains('hit')) { count.classList.remove('hit'); count.classList.add('drop'); } }
+    }
+    place();
+    if (!settled) raf = requestAnimationFrame(step); else raf = 0;
+  };
+  const kick = (e) => {
+    e.preventDefault();
+    const px = (e.clientX ?? innerWidth/2) - (x + size()/2);          // where on the ball you hit it
+    const top = Math.min(innerHeight * 0.55, 460);                  // ceiling: the ball never leaves the viewport
+    vy = Math.sqrt(2 * G * Math.max(90, top - y)) * (0.92 + Math.random() * 0.16); vx = -px * 9 + (Math.random() - .5) * 120;
+    n++; show(n);
+    if (n >= TARGET) { burst(x + size()/2, innerHeight - y - size()/2); n = 0; vy = Math.sqrt(2 * G * 500); }
+    if (!raf) { last = performance.now(); raf = requestAnimationFrame(step); }
+  };
+  ball.addEventListener('pointerdown', kick);
+  const rig = document.getElementById('keepy');
+  new IntersectionObserver(([e]) => rig.classList.toggle('in', e.isIntersecting)).observe(document.getElementById('end'));
+  addEventListener('resize', () => { x = Math.min(x, innerWidth - size()); place(); });
+  place();
+
+  // confetti burst, plain canvas
+  let parts = [], craf = 0;
+  const burst = (bx, by) => {
+    cv.width = innerWidth; cv.height = innerHeight;
+    const cols = ['#e01e2b','#2f6ff2','#ffffff','#ffd60a','#1f8a4c'];
+    for (let i = 0; i < 180; i++) { const a = Math.random() * Math.PI * 2, sp = 500 + Math.random() * 900;
+      parts.push({ x: bx, y: by, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 400, w: 6 + Math.random() * 8, h: 4 + Math.random() * 6, r: Math.random() * 6, vr: (Math.random() - .5) * 20, c: cols[i % cols.length], life: 1.6 + Math.random() * .8 }); }
+    show('GOAL!');
+    if (!craf) { let lt = performance.now(); const loop = (t) => { const dt = Math.min(0.032, (t - lt) / 1000); lt = t; cx.clearRect(0, 0, cv.width, cv.height);
+      parts = parts.filter(p => (p.life -= dt) > 0);
+      for (const p of parts) { p.vy += 1800 * dt; p.vx *= 0.99; p.x += p.vx * dt; p.y += p.vy * dt; p.r += p.vr * dt;
+        cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r); cx.globalAlpha = Math.min(1, p.life); cx.fillStyle = p.c; cx.fillRect(-p.w/2, -p.h/2, p.w, p.h); cx.restore(); }
+      if (parts.length) craf = requestAnimationFrame(loop); else { craf = 0; cx.clearRect(0, 0, cv.width, cv.height); } }; craf = requestAnimationFrame(loop); }
+  };
+})();
+
+/* ================= HOURS: mark today ================= */
+const day = new Date().getDay(); // 0 Sun
+const rowIdx = day === 0 ? 3 : day === 6 ? 2 : day === 5 ? 1 : 0;
+document.querySelectorAll('#hours b')[rowIdx].classList.add('today');
+</script>
+</body>
+</html>
